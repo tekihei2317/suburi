@@ -12,6 +12,15 @@ services:
       ./.env
     ports:
       - 3306:3306
+  ruby:
+    build:
+      context: .
+      dockerfile: ./docker/ruby/Dockerfile
+    volumes:
+      - ./app:/app
+      - installed_gems:/app/vendor/bundle
+    tty: true
 
 volumes:
   db_data:
+  installed_gems:
