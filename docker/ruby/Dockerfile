@@ -4,4 +4,4 @@ WORKDIR /app
 
 COPY ../../app/Gemfile /app/Gemfile
 
-RUN ["bundle", "install", "--path", "vendor/bundle"]
+RUN ["bundle", "install"]

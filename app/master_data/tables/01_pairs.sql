@@ -1,3 +1,5 @@
+use problem_1;
+drop table if exists 01_pairs;
 create table 01_pairs like master_pairs;
 
 insert into 01_pairs values(10, 10);

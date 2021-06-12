@@ -1,3 +1,5 @@
+use problem_1;
+drop table if exists 02_pairs;
 create table 02_pairs like master_pairs;
 
 insert into 02_pairs values(14, 17);
