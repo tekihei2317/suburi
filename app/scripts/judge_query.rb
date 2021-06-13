@@ -1,13 +1,5 @@
 require "mysql2"
-
-def rename_table(name_from, name_to)
-  client = Mysql2::Client.new(host: "db", password: "password")
-  client.query("use problem_1")
-
-  # DDLはprepared statementが使えないみたいだけど、ユーザーからの入力じゃないのでこれで大丈夫
-  query = "alter table #{name_from} rename to #{name_to};"
-  client.query(query)
-end
+require_relative "utils/db_client.rb"
 
 def judge_solution(prefix, users_solution)
   client = Mysql2::Client.new(host: "db", password: "password")
@@ -23,6 +15,8 @@ def judge_solution(prefix, users_solution)
   return answer.to_a == judge_result.to_a
 end
 
+db_client = DbClient.new(host: "db", password: "password")
+
 prefixes = ["01", "02", "03"]
 tables = ["pairs"]
 
@@ -31,7 +25,7 @@ solution = readlines.map(&:strip).join(" ")
 prefixes.each do |prefix|
   # クエリを実行するため、テーブル名を変更する
   tables.each do |table_name|
-    rename_table("#{prefix}_#{table_name}", table_name)
+    db_client.rename_table("#{prefix}_#{table_name}", table_name)
   end
 
   is_correct = judge_solution(prefix, solution)
@@ -39,6 +33,6 @@ prefixes.each do |prefix|
 
   # テーブル名をもとに戻す
   tables.each do |table_name|
-    rename_table(table_name, "#{prefix}_#{table_name}")
+    db_client.rename_table(table_name, "#{prefix}_#{table_name}")
   end
 end
