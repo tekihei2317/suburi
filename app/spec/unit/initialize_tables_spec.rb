@@ -19,19 +19,20 @@ end
 RSpec.describe "問題データベースのセットアップ" do
   before do
     @client = Mysql2::Client.new(host: "db", password: "password")
-    @client.query("drop database if exists problem_1;")
+    @db_name = "problem_001"
+    @client.query("drop database if exists #{@db_name}")
   end
 
   it "データベースとテーブルが作られること" do
     databases = get_database_names(@client)
-    expect(databases).not_to include("problem_1")
+    expect(databases).not_to include(@db_name)
 
     load File.join(File.dirname(__FILE__), "../../scripts/initialize_tables.rb")
 
     databases = get_database_names(@client)
-    expect(databases).to include("problem_1")
+    expect(databases).to include(@db_name)
 
-    tables = get_table_names(@client, "problem_1")
+    tables = get_table_names(@client, @db_name)
     expect(tables).to include("01_pairs")
   end
 end

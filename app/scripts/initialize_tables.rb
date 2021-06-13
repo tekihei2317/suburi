@@ -1,9 +1,9 @@
 require_relative "utils/db_client.rb"
 
 def create_db_from_directory(db_client, directory)
-  database_name = File.basename(directory)
-  db_client.execute("drop database if exists #{database_name}")
-  db_client.execute("create database #{database_name}")
+  db_name = File.basename(directory)
+  db_client.execute("drop database if exists #{db_name}")
+  db_client.execute("create database #{db_name}")
 end
 
 def execute_sql_files(db_client, directory)

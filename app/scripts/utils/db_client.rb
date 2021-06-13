@@ -20,7 +20,7 @@ class DbClient
 
   def rename_table(name_from, name_to)
     # TODO: ハードコーディングしない
-    @client.query("use problem_1")
+    @client.query("use problem_001")
 
     # DDLはprepared statementが使えないみたいだけど、ユーザーからの入力じゃないのでこれで大丈夫
     query = "alter table #{name_from} rename to #{name_to};"

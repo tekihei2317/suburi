@@ -12,16 +12,17 @@ end
 RSpec.describe "解答テーブルの作成" do
   before do
     @client = Mysql2::Client.new(host: "db", password: "password")
+    @db_name = "problem_001"
     load File.join(File.dirname(__FILE__), "../../scripts/initialize_tables.rb")
   end
 
   it "解答用のテーブルが作成されること" do
-    tables = get_table_names(@client, "problem_1")
+    tables = get_table_names(@client, @db_name)
     expect(tables).not_to include("001_answers")
 
     load File.join(File.dirname(__FILE__), "../../scripts/create_answer_tables.rb")
 
-    tables = get_table_names(@client, "problem_1")
+    tables = get_table_names(@client, @db_name)
     expect(tables).to include("01_answers")
   end
 end

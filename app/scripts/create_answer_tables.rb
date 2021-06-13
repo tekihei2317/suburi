@@ -4,7 +4,7 @@ require_relative "utils/db_client.rb"
 def create_answers_table(prefix, solution)
   # solutionは1つのSELECT文(select か with select)
   client = Mysql2::Client.new(host: "db", password: "password")
-  client.query("use problem_1")
+  client.query("use problem_001")
 
   delete_query = "drop table if exists #{prefix}_answers"
   create_query = "create table #{prefix}_answers #{solution}"
