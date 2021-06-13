@@ -6,7 +6,6 @@ class DbClient
   def execute_sql_file(file_path)
     queries = File.read(file_path).split(";").map(&:strip)
     queries.each do |query|
-      puts query
       @client.query(query)
     end
   end
@@ -17,7 +16,6 @@ class DbClient
 
     # DDLはprepared statementが使えないみたいだけど、ユーザーからの入力じゃないのでこれで大丈夫
     query = "alter table #{name_from} rename to #{name_to};"
-    puts query
     @client.query(query)
   end
 end
