@@ -18,7 +18,6 @@ end
 
 RSpec.describe "問題データベースのセットアップ" do
   before do
-    puts "before called"
     @client = Mysql2::Client.new(host: "db", password: "password")
     @client.query("drop database if exists problem_1;")
   end
@@ -27,7 +26,7 @@ RSpec.describe "問題データベースのセットアップ" do
     databases = get_database_names(@client)
     expect(databases).not_to include("problem_1")
 
-    require_relative "../../scripts/initialize_tables.rb"
+    load File.join(File.dirname(__FILE__), "../../scripts/initialize_tables.rb")
 
     databases = get_database_names(@client)
     expect(databases).to include("problem_1")

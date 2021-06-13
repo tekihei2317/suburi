@@ -10,7 +10,6 @@ def create_answers_table(prefix, solution)
   create_query = "create table #{prefix}_answers #{solution}"
 
   client.query(delete_query)
-  puts create_query
   client.query(create_query)
 end
 
@@ -29,7 +28,7 @@ prefixes.each do |prefix|
     db_client.rename_table("#{prefix}_#{table_name}", table_name)
   end
 
-  db_client.create_answers_table(prefix, solution)
+  create_answers_table(prefix, solution)
 
   # テーブル名をもとに戻す
   tables.each do |table_name|
