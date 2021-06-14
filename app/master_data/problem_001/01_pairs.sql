@@ -1,4 +1,3 @@
-use problem_1;
 drop table if exists 01_pairs;
 create table 01_pairs like master_pairs;
 
