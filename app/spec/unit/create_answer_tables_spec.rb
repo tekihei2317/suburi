@@ -10,30 +10,44 @@ def get_table_names(client, database)
 end
 
 RSpec.describe "解答テーブルの作成" do
-  before do
-    @client = Mysql2::Client.new(host: "db", password: "password")
-    load File.join(File.dirname(__FILE__), "../../scripts/initialize_tables.rb")
+  context "テーブル作成のスクリプト実行前" do
+    before :context do
+      @client = Mysql2::Client.new(host: "db", password: "password")
+      load File.join(File.dirname(__FILE__), "../../scripts/initialize_tables.rb")
+    end
+
+    it "問題1の解答テーブルが作成されていないこと" do
+      db_name = "problem_001"
+      tables = get_table_names(@client, db_name)
+      expect(tables).not_to include("01_answers")
+    end
+
+    it "問題2の解答テーブルが作成されていないこと" do
+      db_name = "problem_002"
+      tables = get_table_names(@client, db_name)
+      expect(tables).not_to include("01_answers")
+    end
   end
 
-  it "問題1の解答用のテーブルが作成されること" do
-    db_name = "problem_001"
-    tables = get_table_names(@client, db_name)
-    expect(tables).not_to include("01_answers")
+  context "テーブルの作成スクリプト実行後" do
+    before :context do
+      @client = Mysql2::Client.new(host: "db", password: "password")
+      load File.join(File.dirname(__FILE__), "../../scripts/initialize_tables.rb")
+      load File.join(File.dirname(__FILE__), "../../scripts/create_answer_tables.rb")
+    end
 
-    load File.join(File.dirname(__FILE__), "../../scripts/create_answer_tables.rb")
+    it "問題1の解答用のテーブルが作成されること" do
+      db_name = "problem_001"
 
-    tables = get_table_names(@client, db_name)
-    expect(tables).to include("01_answers")
-  end
+      tables = get_table_names(@client, db_name)
+      expect(tables).to include("01_answers")
+    end
 
-  it "問題2の解答用のテーブルが作成されること" do
-    db_name = "problem_002"
-    tables = get_table_names(@client, db_name)
-    expect(tables).not_to include("01_answers")
+    it "問題2の解答用のテーブルが作成されること" do
+      db_name = "problem_002"
 
-    load File.join(File.dirname(__FILE__), "../../scripts/create_answer_tables.rb")
-
-    tables = get_table_names(@client, db_name)
-    expect(tables).to include("01_answers")
+      tables = get_table_names(@client, db_name)
+      expect(tables).to include("01_answers")
+    end
   end
 end
