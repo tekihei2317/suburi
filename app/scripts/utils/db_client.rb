@@ -6,21 +6,18 @@ class DbClient
   end
 
   def execute(query)
-    puts query
     @client.query(query)
   end
 
   def execute_sql_file(file_path)
     queries = File.read(file_path).split(";").map(&:strip)
     queries.each do |query|
-      puts query
       @client.query(query)
     end
   end
 
-  def rename_table(name_from, name_to)
-    # TODO: ハードコーディングしない
-    @client.query("use problem_001")
+  def rename_table(db_name, name_from, name_to)
+    @client.query("use #{db_name}")
 
     # DDLはprepared statementが使えないみたいだけど、ユーザーからの入力じゃないのでこれで大丈夫
     query = "alter table #{name_from} rename to #{name_to};"

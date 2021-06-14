@@ -7,7 +7,7 @@ services:
       dockerfile: ./docker/db/Dockerfile
     # confに書いても変更されなかったので追記
     # confが共有される前にプロセスが起動している?
-    # named volumeの影響かもしれない(down -vで消してみても駄目だったけど)
+    # named volumeの影響かもしれない(docker-compose down -vで消してみても駄目だったけど)
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./docker/db/confd:/etc/mysql/conf.d
