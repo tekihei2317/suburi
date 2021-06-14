@@ -12,17 +12,17 @@ class Problem
     @tables = collect_tables
 
     # 問題の回答
-    # TODO: ファイルから読み込む
-    @solution = if db_name == "problem_001"
-        "select a + b as sum from pairs;"
-      else
-        "select num from numbers_1;"
-      end
+    @solution = read_solution
   end
 
   private
 
   # TODO: ディレクトリ構造を知っているので、別のクラスに分離したい
+  def read_solution
+    file_path = "solutions/#{@db_name}.sql"
+    first_query = File.read(file_path).split(";").first
+  end
+
   def collect_sql_files
     files = Dir.glob(File.join("./master_data", @db_name, "*.sql"))
     ignore_file = "initialize.sql"
