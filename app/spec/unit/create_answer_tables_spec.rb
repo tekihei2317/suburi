@@ -32,7 +32,7 @@ RSpec.describe "解答テーブルの作成" do
     before :context do
       @client = Mysql2::Client.new(host: "db", password: "password")
       Command.initialize_databases
-      load File.join(File.dirname(__FILE__), "../../scripts/create_answer_tables.rb")
+      Command.create_answer_tables
     end
 
     it "問題1の解答用のテーブルが作成されること" do
