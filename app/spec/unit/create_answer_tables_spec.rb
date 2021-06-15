@@ -1,12 +1,11 @@
 # encoding: utf-8
 require "mysql2"
+require_relative "../../commands/commands.rb"
 
 def get_table_names(client, database)
   client.query("use #{database};")
   result = client.query("show tables;")
   table_names = result.map { |row_hash| row_hash.values.first }
-
-  table_names
 end
 
 RSpec.describe "解答テーブルの作成" do
