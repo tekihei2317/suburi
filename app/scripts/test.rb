@@ -1,4 +1,7 @@
-require_relative "../commands/commands.rb"
+class Hello
+  def self.hello
+    puts "hello"
+  end
+end
 
-Command.create_answer_tables
-Command.create_answer_table("h", "h", "h")
+Hello.hello
