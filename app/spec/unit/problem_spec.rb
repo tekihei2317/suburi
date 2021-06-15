@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative "../../scripts/utils/problem.rb"
+require_relative "../../utils/problem.rb"
 
 RSpec.describe "Problemクラス" do
   context "問題1の場合" do
