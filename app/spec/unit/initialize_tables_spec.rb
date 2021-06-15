@@ -1,5 +1,6 @@
 # encoding: utf-8
 require "mysql2"
+require_relative "../../commands/command.rb"
 
 def get_database_names(client)
   result = client.query("show databases;")
@@ -17,22 +18,32 @@ def get_table_names(client, database)
 end
 
 RSpec.describe "問題データベースのセットアップ" do
-  before do
-    @client = Mysql2::Client.new(host: "db", password: "password")
-    @db_name = "problem_001"
-    @client.query("drop database if exists #{@db_name}")
-  end
+  context "DBセットアップコマンドを実行した場合" do
+    before :context do
+      @client = Mysql2::Client.new(host: "db", password: "password")
 
-  it "データベースとテーブルが作られること" do
-    databases = get_database_names(@client)
-    expect(databases).not_to include(@db_name)
+      @db_names = ["problem_001", "problem_002"]
+      @db_names.each do |db_name|
+        @client.query("drop database if exists #{db_name}")
+      end
 
-    load File.join(File.dirname(__FILE__), "../../scripts/initialize_tables.rb")
+      Command.initialize_databases
+    end
 
-    databases = get_database_names(@client)
-    expect(databases).to include(@db_name)
+    it "問題1のデータベースとテーブルが作られること" do
+      databases = get_database_names(@client)
+      expect(databases).to include(@db_names.first)
 
-    tables = get_table_names(@client, @db_name)
-    expect(tables).to include("01_pairs")
+      tables = get_table_names(@client, @db_names.first)
+      expect(tables).to include("01_pairs")
+    end
+
+    it "問題2のデータベースとテーブルが作られること" do
+      databases = get_database_names(@client)
+      expect(databases).to include(@db_names[1])
+
+      tables = get_table_names(@client, @db_names[1])
+      expect(tables).to include("01_numbers_1")
+    end
   end
 end
