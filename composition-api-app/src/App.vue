@@ -1,17 +1,16 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <counter-mouse :times="3"></counter-mouse>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import CounterMouse from "./components/CounterMounse.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    CounterMouse,
+  },
+};
 </script>
 
 <style>
