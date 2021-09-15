@@ -7,40 +7,35 @@
 </template>
 
 <script>
-import { reactive, ref, computed } from "vue";
+import { computed } from "vue";
+import { usePosition } from "../util-functions/position";
+import { useCounter } from "../util-functions/counter";
 
 export default {
   props: {
     times: {
       type: Number,
-      default: 2,
-    },
+      default: 2
+    }
   },
   setup(props) {
     // counter
-    let count = ref(0);
-    const increment = () => {
-      count.value++;
-    };
+    const { count, increment } = useCounter();
     const multiplicationResult = computed(() => {
       return count.value * props.times;
     });
 
     // mouse
-    const mousePosition = reactive({ x: 0, y: 0 });
-    const updateMouse = (event) => {
-      mousePosition.x = event.clientX;
-      mousePosition.y = event.clientY;
-    };
+    const { position: mousePosition, updatePosition: updateMouse } = usePosition();
 
     return {
       mousePosition,
       count,
       updateMouse,
       increment,
-      multiplicationResult,
+      multiplicationResult
     };
-  },
+  }
 };
 </script>
 
